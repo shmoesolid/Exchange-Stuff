@@ -4,7 +4,11 @@
   "description": "Exchange items based on declared values",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint",
+    "start": "node server.js",
+    "lint": "eslint --quiet .",
+    "fix": "eslint --fix .",
+    "watch": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +28,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",
+    "lint": "^0.7.0",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.3"
   }
