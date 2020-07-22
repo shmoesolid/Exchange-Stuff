@@ -1,0 +1,40 @@
+{
+  "name": "exchange-stuff",
+  "version": "1.0.0",
+  "description": "Exchange items based on declared values",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run lint",
+    "start": "node server.js",
+    "lint": "eslint --quiet .",
+    "fix": "eslint --fix .",
+    "watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shmoesolid/Exchange-Stuff.git"
+  },
+  "keywords": [
+    "trade",
+    "exchange",
+    "barter"
+  ],
+  "author": "Shane Koehler and Zachary Aguilar",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/shmoesolid/Exchange-Stuff/issues"
+  },
+  "homepage": "https://github.com/shmoesolid/Exchange-Stuff#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "prettier": "^1.13.7"
+  }
+}
