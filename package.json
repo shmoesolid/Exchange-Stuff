@@ -1,0 +1,30 @@
+{
+  "name": "exchange-stuff",
+  "version": "1.0.0",
+  "description": "Exchange items based on declared values",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shmoesolid/Exchange-Stuff.git"
+  },
+  "keywords": [
+    "trade",
+    "exchange",
+    "barter"
+  ],
+  "author": "Shane Koehler and Zachary Aguilar",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/shmoesolid/Exchange-Stuff/issues"
+  },
+  "homepage": "https://github.com/shmoesolid/Exchange-Stuff#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.3"
+  }
+}
