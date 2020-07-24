@@ -1,6 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
     var trade = sequelize.define("trade", {
         id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
+        itemID1: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        itemID2: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         itemStatus1: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -13,21 +21,21 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    trade.associate = function(models) {
-        trade.hasOne(models.item, {
-            foreignKey: {
-                name: 'itemID1',
-                allowNull: false
-            }
-        });
+    // trade.associate = function(models) {
+    //     trade.hasOne(models.item, {
+    //         foreignKey: {
+    //             name: 'itemID1',
+    //             allowNull: false
+    //         }
+    //     });
 
-        trade.hasOne(models.item, {
-            foreignKey: {
-                name: 'itemID2',
-                allowNull: false
-            }
-        });
-    };
+    //     trade.hasOne(models.item, {
+    //         foreignKey: {
+    //             name: 'itemID2',
+    //             allowNull: false
+    //         }
+    //     });
+    // };
   
     return trade;
   };
