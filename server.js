@@ -7,6 +7,8 @@ var express = require("express");
 var PORT = process.env.PORT || 8080;
 var db = require("./models");
 
+var genData = require("./debug/generateFakeData");
+
 // Creating express app and configuring middleware needed for authentication
 var app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +25,7 @@ require("./routes/api-routes.js")(app);
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync({ force: true }).then(function() {
+  genData();
   app.listen(PORT, function() {
     console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
   });
