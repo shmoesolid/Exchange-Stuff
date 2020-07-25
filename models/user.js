@@ -1,10 +1,16 @@
+
+var bcrypt = require("bcryptjs");
+
 module.exports = function(sequelize, DataTypes) {
     var user = sequelize.define("user", {
         id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: { len: [1, 255] }
+            validate: { 
+                isEmail: true,
+                len: [1, 255] 
+            }
         },
         password: {
             type: DataTypes.STRING,
@@ -21,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: true,
             validate: { len: [0, 255] }
         },
-        emailValidation: {
+        tokenValidation: {
             type: DataTypes.STRING,
             allowNull: true,
             validate: { len: [1, 255] }
@@ -38,6 +44,14 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "cascade"
         });
     };
+
+    user.prototype.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.password);
+    };
+
+    user.addHook("beforeCreate", function(user) {
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+    });
   
     return user;
   };

@@ -1,26 +1,21 @@
-// Requiring necessary npm packages
-var express = require("express");
-//var session = require("express-session");
-// Requiring passport as we've configured it
 
-// Setting up port and requiring models for syncing
-var PORT = process.env.PORT || 8080;
+var express = require("express");
+var session = require("express-session");
+var exphbs = require("express-handlebars");
+var passport = require("./config/passport");
 var db = require("./models");
 
-var genData = require("./debug/generateFakeData");
+var genData = require("./debug/generateFakeData"); // DEBUG
 
-// Creating express app and configuring middleware needed for authentication
+var PORT = process.env.PORT || 8080;
+
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-// We need to use sessions to keep track of our user's login status
-//app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
-//app.use(passport.initialize());
-//app.use(passport.session());
-
-var exphbs = require("express-handlebars");
-
+app.use(session({ secret: "ju#s82$bd82g0!&*@$#$FG^*@SAn&2", resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
