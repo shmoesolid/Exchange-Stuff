@@ -1,0 +1,14 @@
+.carousel-images{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+      
+}
+.carousel-caption{
+    text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
