@@ -30,8 +30,10 @@ require("./routes/api-routes.js")(app);
 
 // sync db and start
 db.sequelize.sync({ force: true }).then(function() {
-  genData();
-  app.listen(PORT, function() {
-    console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+  genData( () => {
+    app.listen(PORT, function() {
+      console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+    });
   });
+  
 });
