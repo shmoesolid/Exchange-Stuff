@@ -11,7 +11,7 @@ var userCount = 1;
 var itemCount = 1;
 var tradeCount = 1;
 
-var generateFakeData = function()
+var generateFakeData = function(cb)
 {
     // item categories
     var categoryExecute = function()
@@ -88,6 +88,7 @@ var generateFakeData = function()
         //         itemStatus2: 0
         //     }
         // );
+        cb();
     };
 
     categoryExecute();
