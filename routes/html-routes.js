@@ -27,9 +27,21 @@ module.exports = function(app) {
     if (!req.user)
       return res.redirect("/login");
     
-    // show dashboard
+    // show item form
     res.render("item", { user: req.user, itemID: req.params.id });
   });
+
+  // browse other items by our selected item
+  app.get("/browse/:id", function(req, res) {
+
+    // if not logged, redirect to login
+    if (!req.user)
+      return res.redirect("/login");
+    
+    // show browse
+    res.render("browse", { user: req.user, itemID: req.params.id });
+  });
+  
 
   // login
   app.get("/login", function(req, res) {

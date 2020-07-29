@@ -33,6 +33,9 @@
         {{/unless}}
     </ul>
 
+    {{#if user}}<script>var userID = {{user.id}};</script>{{/if}}
+    {{#if itemID}}<script>var itemID = {{itemID}}</script>{{/if}}
+
     {{{ body }}}
 </body>
 
