@@ -3,11 +3,19 @@ module.exports = function(sequelize, DataTypes) {
         id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
         itemID1: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true,
+            references: {
+                model: sequelize.models.item,
+                key: 'id'
+            }
         },
         itemID2: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true,
+            references: {
+                model: sequelize.models.item,
+                key: 'id'
+            }
         },
         itemStatus1: {
             type: DataTypes.INTEGER,
@@ -22,7 +30,8 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     // trade.associate = function(models) {
-    //     trade.hasMany(models.item, {});
+    //     trade.hasOne(models.item, { as: 'itemID1'});
+    //     trade.hasOne(models.item, { as: 'itemID2'});
     // };
   
     return trade;

@@ -41,15 +41,11 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         // item.belongsTo(models.trade, {
-        //     foreignKey: {
-        //         name: "itemID1"
-        //     }
+        //     as: 'itemID1'
         // });
 
         // item.belongsTo(models.trade, {
-        //     foreignKey: {
-        //         name: "itemID2"
-        //     }
+        //     as: 'itemID2'
         // });
     }
   

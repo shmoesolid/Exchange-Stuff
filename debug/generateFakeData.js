@@ -94,7 +94,13 @@ var generateFakeData = function(cb)
                 itemID2: itemsUnavail[Math.floor(Math.random() * itemsUnavail.length)],
                 itemStatus1: 0,
                 itemStatus2: 0
-            }
+            }, 
+            /*{ 
+                include: [ 
+                    { model: db.item, as: 'itemID1' },
+                    { model: db.item, as: 'itemID2' }
+                ]
+            }*/
         );
 
         cb();

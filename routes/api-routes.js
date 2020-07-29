@@ -113,13 +113,40 @@ module.exports = function(app) {
 
                 // find user trades based on user items
                 // TODO: get both items info
-                db.trade.findAll(
-                    {
-                        where: {[Op.or]: [ 
-                            { itemID1: idArray }, 
-                            { itemID2: idArray } 
-                        ]}
-                    }
+                // db.trade.findAll(
+                //     {
+                //         // include: [
+                //         //     { model: db.item, as: 'itemID1' },
+                //         //     { model: db.item, as: 'itemID2' }
+                //         // ],
+                //         // where: {[Op.or]: [ 
+                //         //     { itemID1: idArray }, 
+                //         //     { itemID2: idArray } 
+                //         // ]}
+                //     }
+                // ).then(function(data) {
+                //     res.json(data);
+                // });
+
+                // screw sequelize includes and associations and blah blah
+                db.sequelize.query(
+                    'SELECT'
+                    +' `t`.`id`,'
+                    +' `t`.`itemID1`,'
+                    +' `t`.`itemID2`,'
+                    +' `t`.`itemStatus1`, `t`.`itemStatus2`,'
+                    +' `i1`.`title` as `title1`, `i2`.`title` as `title2`,'
+                    +' `i1`.`description` as `description1`, `i2`.`description` as `description2`,'
+                    +' `i1`.`userId` as `user1`, `i2`.`userId` as `user2`'
+                    +' FROM `trades` `t`'
+                    +' JOIN `items` `i1` ON `t`.`itemID1` = `i1`.`id`'
+                    +' JOIN `items` `i2` on `t`.`itemID2` = `i2`.`id`'
+                    +' WHERE'
+                    +' `t`.`itemID1` IN ('+ idArray.join(',') +')'
+                    +' OR'
+                    +' `t`.`itemID2` IN ('+ idArray.join(',') +')'
+                    +' GROUP BY `t`.`id`;',
+                    { model: db.trade }
                 ).then(function(data) {
                     res.json(data);
                 });

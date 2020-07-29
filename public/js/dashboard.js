@@ -19,7 +19,7 @@ function populateUserTrades(page=1, limit=5)
             // DEBUG
             //console.log("start/end", start, end);
 
-            //console.log(data);
+            console.log(data);
 
             // go through all trades received
             for (var i = p.start; i < p.end; i++) 
@@ -31,8 +31,8 @@ function populateUserTrades(page=1, limit=5)
                 //console.log(JSON.stringify(data[i]));
 
                 item.html(
-                    "<p>ITEM1: "+ data[i].itemID1 +" STATUS: "+ data[i].itemStatus1 +"</p>"
-                    + "<p>ITEM2: "+ data[i].itemID2 +" STATUS: "+ data[i].itemStatus2 +"</p>"
+                    "<p>ITEM1: "+ data[i].title1 +" STATUS: "+ data[i].itemStatus1 +"</p>"
+                    + "<p>ITEM2: "+ data[i].title2 +" STATUS: "+ data[i].itemStatus2 +"</p>"
                     + "<hr />"
                 );
 
