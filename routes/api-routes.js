@@ -45,18 +45,17 @@ module.exports = function(app) {
         var whereObj = {};
         var minV = maxV = 0;
 
-        // add id if exists
+        // add item id and trader id if exists
         if (req.query.id) whereObj.id = req.query.id;
+        if (req.query.userID) whereObj.userId = req.query.userID;
 
         // build min and max if exists
         if ((minV = parseInt(req.query.minValue)) >=0 
             && (maxV = parseInt(req.query.maxValue)) >= 0
         ) {
             var avg = (minV + maxV) / 2;
-            whereObj = [ 
-                {minValue: { [Op.lt]: avg } }, 
-                {maxValue: { [Op.gt]: avg } }
-            ];
+            whereObj.minValue = { [Op.lt]: avg };
+            whereObj.maxValue = { [Op.gt]: avg };
         }
 
         // find all
