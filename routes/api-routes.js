@@ -37,7 +37,7 @@ module.exports = function(app) {
     // get all items
     app.get("/api/items", function(req, res) {
 
-        // confirm authenticated
+        // confirm authenticated TODO uncomment
         //if (!req.user) 
         //    return res.json({error:"Not authorized"});
 
