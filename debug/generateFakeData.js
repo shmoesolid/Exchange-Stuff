@@ -60,8 +60,8 @@ var generateFakeData = function(cb)
                 {
                     title: "title "+itemCount,
                     description: "this is a decription of item title "+itemCount,
-                    minValue: 5,
-                    maxValue: 100,
+                    minValue: Math.min(Math.floor(Math.random() * 100)+1, 20),
+                    maxValue: Math.max(Math.floor(Math.random() * 100)+1, 50),
                     userId: Math.floor(Math.random() * 10)+1
                 }
             )
