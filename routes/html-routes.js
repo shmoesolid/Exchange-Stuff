@@ -4,8 +4,8 @@ module.exports = function(app) {
   // index
   app.get("/", function(req, res) {
 
-    // show index
-    res.render("index", {});
+    // show index and pass user if exists
+    res.render("index", (req.user) ? {user: req.user} : {});
 
   });
 
@@ -17,7 +17,18 @@ module.exports = function(app) {
       return res.redirect("/login");
     
     // show dashboard
-    res.render("dashboard", {});
+    res.render("dashboard", { user: req.user });
+  });
+
+  // create
+  app.get("/create", function(req, res) {
+
+    // if not logged, redirect to login
+    if (!req.user)
+      return res.redirect("/login");
+    
+    // show dashboard
+    res.render("create", { user: req.user });
   });
 
   // login
