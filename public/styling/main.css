@@ -1,13 +1,17 @@
 
+
 .nav{
     background-color:rgb(54,54,54);
     margin-right: auto;
     margin-right: auto;
     font-family: 'Baloo Da 2', cursive;
 }
-body {
+body{
     background-color:rgb(54, 54, 54);
     font-family: 'Baloo Da 2', cursive;
+}
+.container-jumbo{
+    text-align: center;
 }
 .jumbotron{
     background-color: rgb(255, 174, 0);
@@ -21,15 +25,14 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
-      
+    width: 40%; 
 }
 .carousel-caption{
     color: whitesmoke;
     text-shadow:
 		-1px -1px 0 black,
 		1px -1px 0  black,
-		-1px 1px 0 black,
+	    -1px 1px 0 black,
         1px 1px 0  black;
     font-size: 20px;
 }
@@ -42,4 +45,10 @@ body {
 }
 #attn{
     font-weight: 1000;
+}
+.flex-container2{
+    display: flex;
+    justify-content: center;
+    color: orange;
+    width: 100%;
 }
