@@ -1,5 +1,6 @@
 
 var db = require("../models");
+var Op = db.Sequelize.Op;
 var passport = require("../config/passport");
 
 module.exports = function(app) {
@@ -36,29 +37,35 @@ module.exports = function(app) {
     // get all items
     app.get("/api/items", function(req, res) {
 
-        // confirm authenticated
-        if (!req.user) 
-            return res.json({error:"Not authorized"});
+        // confirm authenticated TODO uncomment
+        //if (!req.user) 
+        //    return res.json({error:"Not authorized"});
 
-        // get data
+        // setup where defaults
+        var whereObj = {};
+        var minV = maxV = 0;
+
+        // add id if exists
+        if (req.query.id) whereObj.id = req.query.id;
+
+        // build min and max if exists
+        if ((minV = parseInt(req.query.minValue)) >=0 
+            && (maxV = parseInt(req.query.maxValue)) >= 0
+        ) {
+            var avg = (minV + maxV) / 2;
+            whereObj = [ 
+                {minValue: { [Op.lt]: avg } }, 
+                {maxValue: { [Op.gt]: avg } }
+            ];
+        }
+
+        // find all
         db.item
-            .findAll({})
-            .then(function(results) {
-                res.json(results);
-            });
-    });
-
-    // get specific item
-    app.get("/api/items/:id", function(req, res) {
-
-        // confirm authenticated
-        if (!req.user) 
-            return res.json({error:"Not authorized"});
-
-        // get data
-        db.item
-            .findOne({ where: { id: req.params.id }})
-            .then(function(results) {
+            .findAll(
+                {
+                    where: whereObj
+                }
+            ).then(function(results) {
                 res.json(results);
             });
     });
