@@ -2,6 +2,7 @@
 // env setup
 require('dotenv').config(); // utilizes vars.env in root
 var PORT = process.env.PORT || 8080;
+module.exports = PORT;
 
 // requires
 var express = require("express");

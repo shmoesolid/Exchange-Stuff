@@ -20,15 +20,15 @@ module.exports = function(app) {
     res.render("dashboard", { user: req.user });
   });
 
-  // create
-  app.get("/create", function(req, res) {
+  // create/edit/remove item page
+  app.get("/item/:id", function(req, res) {
 
     // if not logged, redirect to login
     if (!req.user)
       return res.redirect("/login");
     
     // show dashboard
-    res.render("create", { user: req.user });
+    res.render("item", { user: req.user, itemID: req.params.id });
   });
 
   // login

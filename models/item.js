@@ -39,6 +39,18 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: true
             }
         });
+
+        // item.belongsTo(models.trade, {
+        //     foreignKey: {
+        //         name: "itemID1"
+        //     }
+        // });
+
+        // item.belongsTo(models.trade, {
+        //     foreignKey: {
+        //         name: "itemID2"
+        //     }
+        // });
     }
   
     return item;

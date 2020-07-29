@@ -2,6 +2,8 @@
 var db = require("../models");
 var Op = db.Sequelize.Op;
 var passport = require("../config/passport");
+var http = require("http");
+var port = require('../server.js');
 
 module.exports = function(app) {
 
@@ -37,7 +39,7 @@ module.exports = function(app) {
     // get all items
     app.get("/api/items", function(req, res) {
 
-        // confirm authenticated TODO uncomment
+        // confirm authenticated
         //if (!req.user) 
         //    return res.json({error:"Not authorized"});
 
@@ -58,13 +60,18 @@ module.exports = function(app) {
             whereObj.maxValue = { [Op.gt]: avg };
         }
 
+        // setup full object with limit and offset
+        var fullObj = { where: whereObj };
+        if (req.query.limit && !isNaN(req.query.limit = parseInt(req.query.limit))) 
+            fullObj.limit = req.query.limit;
+        
+        if (req.query.offset && !isNaN(req.query.offset = parseInt(req.query.offset)))
+            fullObj.offset = req.query.offset;
+
         // find all
         db.item
-            .findAll(
-                {
-                    where: whereObj
-                }
-            ).then(function(results) {
+            .findAll( fullObj )
+            .then(function(results) {
                 res.json(results);
             });
     });
@@ -82,5 +89,42 @@ module.exports = function(app) {
 
         // send back data
         res.json(req.user);
+    });
+
+    // get user trades
+    app.get("/api/trades", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.json({error:"Not authorized"});
+
+        // set url for getting user items
+        var url = 'http://localhost:'+ port +'/api/items?userID='+ req.user.id;
+
+        // get those items first
+        http.get(url, function(result) {
+            var body = '';
+            result.on('data', (chunk) => body += chunk);
+            result.on('end', () => {
+
+                // handle data parsing
+                var itemData = JSON.parse(body);
+                var idArray = itemData.map( (obj) => obj.id);
+
+                // find user trades based on user items
+                // TODO: get both items info
+                db.trade.findAll(
+                    {
+                        where: {[Op.or]: [ 
+                            { itemID1: idArray }, 
+                            { itemID2: idArray } 
+                        ]}
+                    }
+                ).then(function(data) {
+                    res.json(data);
+                });
+
+            });
+        });
     });
 };

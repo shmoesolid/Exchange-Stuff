@@ -4,15 +4,18 @@ var db = require("../models");
 var categoryNum = 10;
 var userNum = 10;
 var itemNum = 50;
-var tradeNum = 2;
+//var tradeNum = 2;
 
 var categoryCount = 1;
 var userCount = 1;
 var itemCount = 1;
-var tradeCount = 1;
+//var tradeCount = 1;
+var itemsAvail = [];
+var itemsUnavail = [];
 
 var generateFakeData = function(cb)
 {
+
     // item categories
     var categoryExecute = function()
     {
@@ -55,6 +58,8 @@ var generateFakeData = function(cb)
     // items
     var itemExecute = function()
     {
+        var uid = Math.floor(Math.random() * 10)+1;
+
         db.item
             .create( 
                 {
@@ -62,12 +67,14 @@ var generateFakeData = function(cb)
                     description: "this is a decription of item title "+itemCount,
                     minValue: Math.min(Math.floor(Math.random() * 100)+1, 20),
                     maxValue: Math.max(Math.floor(Math.random() * 100)+1, 50),
-                    userId: Math.floor(Math.random() * 10)+1
+                    userId: uid
                 }
             )
             .then( () => {
                 if (itemCount < itemNum)
                 {
+                    if (uid == 1) itemsAvail.push(itemCount); // for trade
+                    else itemsUnavail.push(itemCount);
                     itemCount++;
                     itemExecute();
                     return;
@@ -80,17 +87,20 @@ var generateFakeData = function(cb)
     // trades
     var tradeExecute = function()
     {
-        // db.trade.create(
-        //     {
-        //         itemID1: 1,
-        //         itemID2: 50,
-        //         itemStatus1: 0,
-        //         itemStatus2: 0
-        //     }
-        // );
+        // just do one for now under first user
+        db.trade.create(
+            {
+                itemID1: itemsAvail[Math.floor(Math.random() * itemsAvail.length)],
+                itemID2: itemsUnavail[Math.floor(Math.random() * itemsUnavail.length)],
+                itemStatus1: 0,
+                itemStatus2: 0
+            }
+        );
+
         cb();
     };
 
+    // execute start
     categoryExecute();
 };
 
