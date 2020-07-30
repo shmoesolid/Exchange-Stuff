@@ -85,6 +85,17 @@ module.exports = function(app) {
       });
     });
   });
+
+  // user edit
+  app.get("/user", function(req, res) {
+
+    // if not logged, redirect to login
+    if (!req.user)
+      return res.redirect("/login");
+
+    // render
+    res.render("user", { user: req.user });
+  });
   
   // login
   app.get("/login", function(req, res) {

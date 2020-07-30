@@ -8,7 +8,7 @@ var port = require('../server.js');
 module.exports = function(app) {
 
     ////////////////////////////////////////////////////////////////////////////
-    // SESSION GET AND POSTS
+    // SESSION GET/POST
 
     // login
     app.post("/api/login", passport.authenticate("local"), function(req, res) {
@@ -34,7 +34,41 @@ module.exports = function(app) {
     });
 
     ////////////////////////////////////////////////////////////////////////////
-    // OTHER GETS
+    // USER GET/PUT
+
+    // get user info
+    app.get("/api/user", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.json({error:"Not authorized"});
+
+        // remove vital info
+        delete req.user.password;
+        delete req.user.tokenValidation;
+
+        // send back data
+        res.json(req.user);
+    });
+
+    // user update info
+    app.put("/api/user", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
+
+        // TODO
+        // get req.body? data and verify 
+        // also confirm editing user editing itself
+        // use db.user.create
+
+        // TEMP
+        return res.redirect("/dashboard");
+    });
+
+    ////////////////////////////////////////////////////////////////////////////
+    // ITEM/TRADE GETS
 
     // get all items
     app.get("/api/items", function(req, res) {
@@ -74,21 +108,6 @@ module.exports = function(app) {
             .then(function(results) {
                 res.json(results);
             });
-    });
-
-    // get user info
-    app.get("/api/user", function(req, res) {
-
-        // confirm authenticated
-        if (!req.user) 
-            return res.json({error:"Not authorized"});
-
-        // remove vital info
-        delete req.user.password;
-        delete req.user.tokenValidation;
-
-        // send back data
-        res.json(req.user);
     });
 
     // get user trades
@@ -138,20 +157,69 @@ module.exports = function(app) {
     });
 
     ////////////////////////////////////////////////////////////////////////////
-    // ITEM/TRADE POSTS/DELETES
+    // ITEM/TRADE POST/DELETE
 
     // create item
     app.post("/api/item", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
         
+        // TODO
+        // get and verify req.body data
+        // use req.user.id for userId
+        // use db.item.create
+
+        // TEMP
+        return res.redirect("/dashboard");
     });
 
     // create trade
     app.post("/api/trade", function(req, res) {
 
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
+
+        // TODO
+        // get and verify req.body data
+        // confirm other item does not belong to same user
+        // use db.trade.create
+
+        // TEMP
+        return res.redirect("/dashboard");
     });
 
     // delete item
     app.delete("/api/item", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
         
+        // TODO
+        // get and verify req.body? data
+        // confirm item info matches our req.user.id
+        // db.item.destroy
+
+        // TEMP
+        return res.redirect("/dashboard");
+    });
+
+    // delete trade
+    app.delete("/api/trade", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
+
+        // TODO
+        // get and verify req.body data
+        // confirm one of the items belongs to user
+        // use db.trade.destroy
+
+        // TEMP
+        return res.redirect("/dashboard");
     });
 };
