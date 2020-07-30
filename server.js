@@ -1,6 +1,6 @@
 
 // env setup
-require('dotenv').config(); // utilizes vars.env in root
+require('dotenv').config(); // utilizes .env in root
 var PORT = process.env.PORT || 8080;
 module.exports = PORT;
 
