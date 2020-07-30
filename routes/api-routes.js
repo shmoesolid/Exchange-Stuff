@@ -193,15 +193,10 @@ module.exports = function(app) {
         // confirm authenticated
         if (!req.user) 
             return res.redirect("/");
-
-        // confirm deleter is the right one
-        if (req.query.id != req.user.id)
-            return res.redirect("/dashboard");
         
         // TODO: verify data
         
         // delete item id only if userId is matching too 
-        // (already checking, but just for good measure)
         db.item.destroy({
             where: {
                 [Op.and]: [
