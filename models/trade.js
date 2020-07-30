@@ -20,12 +20,14 @@ module.exports = function(sequelize, DataTypes) {
         itemStatus1: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: { min: 0, max: 15 }
+            validate: { min: 0, max: 9 },
+            defaultValue: 0
         },
         itemStatus2: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: { min: 0, max: 15 }
+            validate: { min: 0, max: 9 },
+            defaultValue: 0
         }
     });
 

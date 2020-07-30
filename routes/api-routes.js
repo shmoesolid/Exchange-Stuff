@@ -58,13 +58,21 @@ module.exports = function(app) {
         if (!req.user) 
             return res.redirect("/");
 
-        // TODO
-        // get req.body? data and verify 
-        // also confirm editing user editing itself
-        // use db.user.create
+        // confirm editing user editing itself
+        if (req.body.id != req.user.id)
+            return res.redirect("/dashboard");
 
-        // TEMP
-        return res.redirect("/dashboard");
+        // TODO: verify other data
+
+        // update
+        db.user.update(
+            req.body,
+            {
+                where: {
+                    id: req.user.id
+                }
+            }
+        ).then( (dbData) => res.json(dbData) );
     });
 
     ////////////////////////////////////////////////////////////////////////////
@@ -157,7 +165,7 @@ module.exports = function(app) {
     });
 
     ////////////////////////////////////////////////////////////////////////////
-    // ITEM/TRADE POST/DELETE
+    // ITEM/TRADE POST/DELETE/UPDATE
 
     // create item
     app.post("/api/item", function(req, res) {
@@ -165,30 +173,18 @@ module.exports = function(app) {
         // confirm authenticated
         if (!req.user) 
             return res.redirect("/");
+
+        // setup data
+        var postData = req.body;
+        postData.userId = req.user.id;
         
-        // TODO
-        // get and verify req.body data
-        // use req.user.id for userId
-        // use db.item.create
-
-        // TEMP
-        return res.redirect("/dashboard");
-    });
-
-    // create trade
-    app.post("/api/trade", function(req, res) {
-
-        // confirm authenticated
-        if (!req.user) 
-            return res.redirect("/");
-
-        // TODO
-        // get and verify req.body data
-        // confirm other item does not belong to same user
-        // use db.trade.create
-
-        // TEMP
-        return res.redirect("/dashboard");
+        // TODO: verify req.body data
+        console.log(postData);
+        
+        // create 
+        db.item
+            .create(postData)
+            .then( (dbData) => res.json(dbData) );
     });
 
     // delete item
@@ -197,14 +193,66 @@ module.exports = function(app) {
         // confirm authenticated
         if (!req.user) 
             return res.redirect("/");
-        
-        // TODO
-        // get and verify req.body? data
-        // confirm item info matches our req.user.id
-        // db.item.destroy
 
-        // TEMP
-        return res.redirect("/dashboard");
+        // confirm deleter is the right one
+        if (req.query.id != req.user.id)
+            return res.redirect("/dashboard");
+        
+        // TODO: verify data
+        
+        // delete item id only if userId is matching too 
+        // (already checking, but just for good measure)
+        db.item.destroy({
+            where: {
+                [Op.and]: [
+                    { id: req.query.id },
+                    { userId: req.user.id }
+                ]
+            }
+        }).then( (dbData) => res.json(dbData) );
+    });
+
+    // update item
+    app.put("/api/item", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
+
+        // confirm updater is right user
+        if (req.body.id != req.user.id)
+            return res.redirect("/dashboard");
+
+        // TODO: verify data
+
+        // update
+        db.item.update(
+            req.body,
+            {
+                where: {
+                    id: req.user.id
+                }
+            }
+        ).then( (dbData) => res.json(dbData) );
+    });
+
+    // create trade
+    // called when user accepts a trade compare
+    app.post("/api/trade", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user)
+            return res.redirect("/");
+
+        // TODO:
+        // get and verify req.body data
+        // confirm other item does not belong to same user
+        // confirm max trades for user not hit
+
+        // create 
+        db.trade
+            .create(req.body)
+            .then( (dbData) => res.json(dbData) );
     });
 
     // delete trade
@@ -214,12 +262,36 @@ module.exports = function(app) {
         if (!req.user) 
             return res.redirect("/");
 
-        // TODO
-        // get and verify req.body data
+        // TODO:
+        // verify req.query.id
+        // confirm trade is yours to delete
         // confirm one of the items belongs to user
-        // use db.trade.destroy
 
-        // TEMP
-        return res.redirect("/dashboard");
+        // delete
+        db.trade.destroy({
+            where: {
+                id: req.query.id
+            }
+        }).then( (dbData) => res.json(dbData) );
+    });
+
+    // update trade status
+    app.put("/api/trade", function(req, res) {
+
+        // confirm authenticated
+        if (!req.user) 
+            return res.redirect("/");
+
+        // TODO: verify data
+
+        // update
+        db.trade.update(
+            req.body,
+            {
+                where: {
+                    id: req.body.id
+                }
+            }
+        ).then( (dbData) => res.json(dbData) );
     });
 };
