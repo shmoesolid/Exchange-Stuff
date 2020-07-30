@@ -1,17 +1,20 @@
 
-<p>display form for creating, editing, or removing</p>
+<div class='.container-color'>
+    <p>display form for creating, editing, or removing</p>
+    <p>need to create post form fillout out data if exists and adding a remove option if it does</p>
 
-{{#if item.error}}
-    <p>Error: {{item.error}}</p>
-{{else if item.id}}
-    <p>{{item.id}}</p>
-    <p>{{item.title}}</p>
-    <p>{{item.description}}</p>
-    <p>{{item.minValue}}</p>
-    <p>{{item.maxValue}}</p>
-    <p>{{item.userId}}</p>
-{{else}}
-    <p>no item</p>
-{{/if}}
+    {{#if item.error}}
+        <p>Error: {{item.error}}</p>
+    {{else if item.id}}
+        <p>{{item.id}}</p>
+        <p>{{item.title}}</p>
+        <p>{{item.description}}</p>
+        <p>{{item.minValue}}</p>
+        <p>{{item.maxValue}}</p>
+        <p>{{item.userId}}</p>
+    {{else}}
+        <p>no item</p>
+    {{/if}}
+</div>
 
 <script type="text/javascript" src="js/item.js"></script>

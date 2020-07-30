@@ -8,7 +8,7 @@ var port = require('../server.js');
 module.exports = function(app) {
 
     ////////////////////////////////////////////////////////////////////////////
-    // SESSION HANDLING
+    // SESSION GET AND POSTS
 
     // login
     app.post("/api/login", passport.authenticate("local"), function(req, res) {
@@ -34,7 +34,7 @@ module.exports = function(app) {
     });
 
     ////////////////////////////////////////////////////////////////////////////
-    // OTHER DATA HANDLING
+    // OTHER GETS
 
     // get all items
     app.get("/api/items", function(req, res) {
@@ -111,23 +111,6 @@ module.exports = function(app) {
                 var itemData = JSON.parse(body);
                 var idArray = itemData.map( (obj) => obj.id);
 
-                // find user trades based on user items
-                // TODO: get both items info
-                // db.trade.findAll(
-                //     {
-                //         // include: [
-                //         //     { model: db.item, as: 'itemID1' },
-                //         //     { model: db.item, as: 'itemID2' }
-                //         // ],
-                //         // where: {[Op.or]: [ 
-                //         //     { itemID1: idArray }, 
-                //         //     { itemID2: idArray } 
-                //         // ]}
-                //     }
-                // ).then(function(data) {
-                //     res.json(data);
-                // });
-
                 // screw sequelize includes and associations and blah blah
                 db.sequelize.query(
                     'SELECT'
@@ -150,8 +133,25 @@ module.exports = function(app) {
                 ).then(function(data) {
                     res.json(data);
                 });
-
             });
         });
+    });
+
+    ////////////////////////////////////////////////////////////////////////////
+    // ITEM/TRADE POSTS/DELETES
+
+    // create item
+    app.post("/api/item", function(req, res) {
+        
+    });
+
+    // create trade
+    app.post("/api/trade", function(req, res) {
+
+    });
+
+    // delete item
+    app.delete("/api/item", function(req, res) {
+        
     });
 };
