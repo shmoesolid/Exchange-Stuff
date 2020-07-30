@@ -36,6 +36,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: { len: [0, 255] }
+        },
+        level: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: { min: 0, max: 9 }
         }
     });
 

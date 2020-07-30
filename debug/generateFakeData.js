@@ -41,6 +41,7 @@ var generateFakeData = function(cb)
                 {
                     email: `${userCount}@mail.com`,
                     password: "password",
+                    level: 0
                 }
             )
             .then( () => {
