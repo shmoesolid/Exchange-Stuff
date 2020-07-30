@@ -3,32 +3,47 @@
 .nav{
     background-color:rgb(54,54,54);
     margin-right: auto;
-    margin-right: auto;
+    margin-left: auto;
     font-family: 'Baloo Da 2', cursive;
 }
+.navbar-brand{
+    color: rgb(255, 174, 0);
+    text-align: right;
+}
 body{
-    background-color:rgb(54, 54, 54);
+    background-color:rgb(68, 68, 68);
     font-family: 'Baloo Da 2', cursive;
 }
 .container-jumbo{
     text-align: center;
+    color: rgb(68, 68, 68);
+
 }
 .jumbotron{
-    background-color: rgb(255, 174, 0);
-
+    background-color: rgb(196, 230, 0);
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: auto;
+}
+#j-o{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%; 
+  align-content: center;
 }
 .btn{
     background-color: rgb(54, 54, 54);
-    color:rgb(255,174,0) ;
+    color:rgb(196, 230, 0) ;
 }
 .carousel-images{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 40%; 
+    width: 50%; 
 }
 .carousel-caption{
-    color: whitesmoke;
+    color:rgb(196, 230, 0);
     text-shadow:
 		-1px -1px 0 black,
 		1px -1px 0  black,
@@ -38,7 +53,7 @@ body{
 }
 .why-money{
     align-content: center;
-    background-color: rgb(255, 174, 0);
+    background-color: rgb(196, 230, 0);
     color: rgb(54, 54, 54);
     text-align: center;
     font-size: 30px;
@@ -49,9 +64,9 @@ body{
 .flex-container2{
     display: flex;
     justify-content: center;
-    color: orange;
+    color: rgb(196, 230, 0);
     width: 100%;
 }
 .container-color{
-    color: orange;
+    color: rgb(196, 230, 0);
 }
