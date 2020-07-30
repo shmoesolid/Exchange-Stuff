@@ -39,6 +39,14 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: true
             }
         });
+
+        // item.belongsTo(models.trade, {
+        //     as: 'itemID1'
+        // });
+
+        // item.belongsTo(models.trade, {
+        //     as: 'itemID2'
+        // });
     }
   
     return item;
