@@ -1,3 +1,3 @@
 
-// use passed itemID to get and fill form data
-// if no itemID, we are creating new
+// use passed item to get and fill form data
+// if no item, we are creating new for user

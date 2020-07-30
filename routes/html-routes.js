@@ -1,4 +1,20 @@
 
+var http = require("http");
+var port = require('../server.js');
+
+function getItem(id, cb)
+{
+  var url = 'http://localhost:'+ port +'/api/items?id='+ id;
+
+  // get that item
+  http.get(url, function(result) {
+    var body = '';
+    result.on('data', (chunk) => body += chunk);
+    result.on('end', () => cb(JSON.parse(body)) );
+    result.on('error', (err) => cb({error: err}) );
+  });
+}
+
 module.exports = function(app) {
 
   // index
@@ -21,28 +37,55 @@ module.exports = function(app) {
   });
 
   // create/edit/remove item page
-  app.get("/item/:id", function(req, res) {
+  app.get("/item", function(req, res) {
 
     // if not logged, redirect to login
     if (!req.user)
       return res.redirect("/login");
-    
-    // show item form
-    res.render("item", { user: req.user, itemID: req.params.id });
+
+    // just render without item data
+    if (!req.query.id)
+      return res.render("item", { user: req.user });
+
+    // get item
+    getItem(req.query.id, function(data) {
+
+      var itemData = data[0];
+      if (itemData.userId != req.user.id)
+        itemData = { error: "Not Authorized" };
+
+      res.render("item", { 
+        user: req.user, 
+        item: itemData 
+      });
+    });
   });
 
   // browse other items by our selected item
-  app.get("/browse/:id", function(req, res) {
+  app.get("/browse", function(req, res) {
 
     // if not logged, redirect to login
     if (!req.user)
       return res.redirect("/login");
-    
-    // show browse
-    res.render("browse", { user: req.user, itemID: req.params.id });
+
+    // just render without item data
+    if (!req.query.id)
+      return res.render("browse", { user: req.user });
+
+    // get item
+    getItem(req.query.id, function(data) {
+
+      var itemData = data[0];
+      if (itemData.userId != req.user.id)
+        itemData = { error: "Not Authorized" };
+
+      res.render("browse", { 
+        user: req.user, 
+        item: itemData
+      });
+    });
   });
   
-
   // login
   app.get("/login", function(req, res) {
 

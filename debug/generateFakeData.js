@@ -39,7 +39,7 @@ var generateFakeData = function(cb)
         db.user
             .create( 
                 {
-                    email: `email${userCount}@blah.com`,
+                    email: `${userCount}@mail.com`,
                     password: "password",
                 }
             )
