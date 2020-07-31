@@ -41,7 +41,7 @@ module.exports = function(app) {
 
         // confirm authenticated
         if (!req.user) 
-            return res.json({error:"Not authorized"});
+            return res.json({});
 
         // remove vital info
         delete req.user.password;
@@ -52,28 +52,28 @@ module.exports = function(app) {
     });
 
     // user update info
-    app.put("/api/user", function(req, res) {
+    // app.put("/api/user", function(req, res) {
 
-        // confirm authenticated
-        if (!req.user) 
-            return res.redirect("/");
+    //     // confirm authenticated
+    //     if (!req.user) 
+    //         return res.redirect("/");
 
-        // confirm editing user editing itself
-        if (req.body.id != req.user.id)
-            return res.redirect("/dashboard");
+    //     // confirm editing user editing itself
+    //     if (req.body.id != req.user.id)
+    //         return res.redirect("/dashboard");
 
-        // TODO: verify other data
+    //     // TODO: verify other data
 
-        // update
-        db.user.update(
-            req.body,
-            {
-                where: {
-                    id: req.user.id
-                }
-            }
-        ).then( (dbData) => res.json(dbData) );
-    });
+    //     // update
+    //     db.user.update(
+    //         req.body,
+    //         {
+    //             where: {
+    //                 id: req.user.id
+    //             }
+    //         }
+    //     ).then( (dbData) => res.json(dbData) );
+    // });
 
     ////////////////////////////////////////////////////////////////////////////
     // ITEM/TRADE GETS
@@ -140,6 +140,11 @@ module.exports = function(app) {
                 // handle data parsing
                 var itemData = JSON.parse(body);
                 var idArray = itemData.map( (obj) => obj.id);
+
+                // fixes error on making a new user
+                // causes below query to error when empty
+                if (!idArray.length)
+                    return res.json({});
 
                 // screw sequelize includes and associations and blah blah
                 db.sequelize.query(

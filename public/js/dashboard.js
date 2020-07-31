@@ -70,7 +70,7 @@ function populateUserTrades(page=1, limit=1)
 
             // listener for canceling a trade
             $('.cancel-trade').on("click",
-            function(event)
+                function(event)
                 {
                     event.preventDefault();
 

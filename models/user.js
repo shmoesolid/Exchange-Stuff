@@ -40,7 +40,8 @@ module.exports = function(sequelize, DataTypes) {
         level: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: { min: 0, max: 9 }
+            validate: { min: 0, max: 9 },
+            defaultValue: 0
         }
     });
 
