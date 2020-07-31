@@ -167,7 +167,7 @@ module.exports = function(app) {
     ////////////////////////////////////////////////////////////////////////////
     // ITEM/TRADE POST/DELETE/UPDATE
 
-    // create item
+    // create item or update
     app.post("/api/item", function(req, res) {
 
         // confirm authenticated
@@ -176,15 +176,35 @@ module.exports = function(app) {
 
         // setup data
         var postData = req.body;
-        postData.userId = req.user.id;
+
+        // confirm if updating and if right user
+        if (postData.userId && postData.userId != req.user.id)
+            return res.redirect("/dashboard");
         
-        // TODO: verify req.body data
+        // TODO: verify data
         console.log(postData);
         
-        // create 
-        db.item
-            .create(postData)
-            .then( (dbData) => res.json(dbData) );
+        // create if no userId data
+        if (!postData.id)
+        {
+            // set our user id
+            postData.userId = req.user.id;
+            
+            // create 
+            return db.item
+                .create(postData)
+                .then( (dbData) => res.json(dbData) );
+        }
+        
+        // otherwise update
+        db.item.update(
+            postData,
+            {
+                where: {
+                    id: postData.id
+                }
+            }
+        ).then( (dbData) => res.json(dbData) );
     });
 
     // delete item
@@ -208,7 +228,7 @@ module.exports = function(app) {
     });
 
     // update item
-    app.put("/api/item", function(req, res) {
+    /*app.put("/api/item", function(req, res) {
 
         // confirm authenticated
         if (!req.user) 
@@ -229,7 +249,7 @@ module.exports = function(app) {
                 }
             }
         ).then( (dbData) => res.json(dbData) );
-    });
+    });*/
 
     // create trade
     // called when user accepts a trade compare
