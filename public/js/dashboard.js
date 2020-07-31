@@ -19,7 +19,7 @@ function populateUserTrades(page=1, limit=5)
             // DEBUG
             //console.log("start/end", start, end);
 
-            console.log(data);
+            //console.log(data);
 
             // go through all trades received
             for (var i = p.start; i < p.end; i++) 
@@ -109,7 +109,7 @@ function populateUserItems(uid, page=1, limit=5)
                 {
                     event.preventDefault();
                     var currentItemID = $(this).parent().data('id');
-                    window.location.ref = "/item?id=" + currentItemID;
+                    window.location.href = "/item?id=" + currentItemID;
                 }
             );
 
@@ -119,7 +119,7 @@ function populateUserItems(uid, page=1, limit=5)
                 {
                     event.preventDefault();
                     var currentItemID = $(this).parent().data('id');
-                    window.location.ref = "/browse?id=" + currentItemID;
+                    window.location.href = "/browse?id=" + currentItemID;
                 }
             );
 
@@ -143,7 +143,7 @@ $(document).ready(() => {
 
     $('#create-listing').on("click", function(event) {
         event.preventDefault();
-        window.location.ref = "/item";
+        window.location.href = "/item";
     });
 
     populateUserItems(userID);

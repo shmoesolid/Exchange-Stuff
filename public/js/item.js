@@ -1,6 +1,15 @@
 
 // handlebars file deals with item editing filling
 // use this file for post/update/delete
+/*
+var formElm = $('#item-form');
+    var inputID = $('#id');
+    var inputTitle = $('#title');
+    var inputDesc = $('#description');
+    var inputMin = $('#minValue');
+    var inputMax = $('#maxValue');
+    var inputUserID = $('#userId');
+*/
 
 // confirm loaded
 $(document).ready( () => {
@@ -9,23 +18,19 @@ $(document).ready( () => {
     formElm.on('submit', function(event) {
         event.preventDefault();
 
-        // dynamically create send object by serializing form data
+        // create form object send
         var sendObj = {};
-        $.each(
-            formElm.serializeArray(), 
-            function(_, kv) {
-                if (sendObj.hasOwnProperty(kv.name)) {
-                    sendObj[kv.name] = $.makeArray(sendObj[kv.name]);
-                    sendObj[kv.name].push(kv.value);
-                }
-                else
-                    sendObj[kv.name] = kv.value;
-            }
-        );
+        sendObj.id = inputID.val();
+        sendObj.title = inputTitle.val();
+        sendObj.description = inputDesc.val();
+        sendObj.minValue = inputMin.val();
+        sendObj.maxValue = inputMax.val();
+        sendObj.userId = inputUserID.val();
 
-        // handle put or post based on data
-        if (sendObj.id) $.put("/api/item", sendObj).then(() => window.location.href = "/dashboard");
-        else $.post("/api/item", sendObj).then(() => window.location.href = "/dashboard");
+        console.log(sendObj);
+
+        // handle post
+        $.post("/api/item", sendObj).then(() => window.location.href = "/dashboard");
     });
 
     // go back to dashboard on cancel
