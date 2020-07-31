@@ -70,4 +70,32 @@ body{
 }
 .container-color{
     color: rgb(196, 230, 0);
+    margin-top: 10%;
+}
+#user-items{
+    text-align: center;
+    background-color: rgb;
+}
+#title{
+    background-color: rgb(196, 230, 0);
+}
+#userId{
+    background-color: rgb(196, 230, 0);
+}
+#minValue{
+    background-color: rgb(196, 230, 0);
+}
+#maxValue{
+    background-color: rgb(196, 230, 0);
+}
+#description{
+    background-color: rgb(196, 230, 0);
+}
+#item-form {
+    text-align: center;
+    background-color: rgb(54, 54, 54);
+}
+#item-form button{
+    background-color: rgb(54, 54, 54);
+    color: rgb(196, 230, 0);
 }

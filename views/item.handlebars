@@ -1,20 +1,44 @@
 
-<div class='container-color'>
-    <p>display form for creating, editing, or removing</p>
-    <p>need to create post form fillout out data if exists and adding a remove option if it does</p>
-
-    {{#if item.error}}
+<div class='container-color container'>
+     {{#if item.error}}
         <p>Error: {{item.error}}</p>
-    {{else if item.id}}
-        <p>{{item.id}}</p>
-        <p>{{item.title}}</p>
-        <p>{{item.description}}</p>
-        <p>{{item.minValue}}</p>
-        <p>{{item.maxValue}}</p>
-        <p>{{item.userId}}</p>
     {{else}}
-        <p>no item</p>
+        <div class="container">
+        <form id="item-form">
+            <input type="hidden" id="id" value="">
+            <input type="text" id="title" value="" placeholder="Item Title">
+            <input type="hidden" id="userId" value="">
+            <input type="number" id="minValue" value="0">
+            <input type="number" id="maxValue" value="0">
+            <textarea  id="description" placeholder="Item Descrition"> </textarea>
+            <button type="submit">Save</button>
+            <button id="cancel">Cancel</button>
+           {{#if item.id}} <button id="remove">Remove</button>{{/if}}
+        </form>
+        </div>
     {{/if}}
 </div>
 
+<script>
+    var formElm = $('#item-form');
+    var inputID = $('#id');
+    var inputTitle = $('#title');
+    var inputDesc = $('#description');
+    var inputMin = $('#minValue');
+    var inputMax = $('#maxValue');
+    var inputUserID = $('#userId');
+{{#if item.id}}
+    inputID.val("{{item.id}}");
+    inputTitle.val("{{item.title}}");
+    inputDesc.text("{{item.description}}");
+    inputMin.val("{{item.minValue}}");
+    inputMax.val("{{item.maxValue}}");
+    inputUserID.val("{{item.userId}}");
+{{/if}}
+</script>
+
 <script type="text/javascript" src="js/item.js"></script>
+
+<!--form
+min max value 
+type of id hidden userid item ID>  
