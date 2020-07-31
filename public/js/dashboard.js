@@ -1,6 +1,6 @@
 
 // get user trades
-function populateUserTrades(page=1, limit=5)
+function populateUserTrades(page=1, limit=2)
 {
     $.get("/api/trades",
 
@@ -58,7 +58,7 @@ function populateUserTrades(page=1, limit=5)
 }
 
 // get items by user id
-function populateUserItems(uid, page=1, limit=5)
+function populateUserItems(uid, page=1, limit=2)
 {
     // DEBUG
     //console.log(uid, page, limit);

@@ -53,7 +53,7 @@ function generatePager(page, page_total, limit, buttonRef='pager-button')
  */
 function getPagerVars(dataLength, page, limit)
 {
-    var limitArray = [5, 10, 25, 50, 100];
+    var limitArray = [2, 5, 10, 25, 50, 100];
     var rtnObj = {};
 
     rtnObj.limit = Math.max(Math.min(limit, 100), 1);
