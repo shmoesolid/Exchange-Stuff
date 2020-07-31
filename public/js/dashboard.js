@@ -50,7 +50,7 @@ function populateUserTrades(page=1, limit=2)
                     var bRef = $(this);
 
                     // load new items based on button data
-                    populateUserItems(uid, bRef.data('pg'), bRef.data('limit'))
+                    populateUserTrades(bRef.data('pg'), bRef.data('limit'))
                 }
             );
         }
@@ -131,7 +131,7 @@ function populateUserItems(uid, page=1, limit=2)
                     var bRef = $(this);
 
                     // load new items based on button data
-                    populateUserItems(uid, bRef.data('pg'), bRef.data('limit'))
+                    populateUserItems(userID, bRef.data('pg'), bRef.data('limit'))
                 }
             );
         }

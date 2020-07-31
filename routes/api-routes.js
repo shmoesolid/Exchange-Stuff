@@ -110,6 +110,8 @@ module.exports = function(app) {
         if (req.query.offset && !isNaN(req.query.offset = parseInt(req.query.offset)))
             fullObj.offset = req.query.offset;
 
+        console.log(fullObj);
+
         // find all
         db.item
             .findAll( fullObj )
@@ -227,29 +229,26 @@ module.exports = function(app) {
         }).then( (dbData) => res.json(dbData) );
     });
 
-    // update item
-    /*app.put("/api/item", function(req, res) {
+    // update item deniedItems
+    app.put("/api/item", function(req, res) {
 
         // confirm authenticated
         if (!req.user) 
             return res.redirect("/");
 
-        // confirm updater is right user
-        if (req.body.id != req.user.id)
-            return res.redirect("/dashboard");
-
         // TODO: verify data
+        if (typeof req.query.deniedItems == undefined
+            || typeof req.query.id == undefined
+        ) {
+            return res.redirect("/dashboard");
+        }
 
         // update
         db.item.update(
-            req.body,
-            {
-                where: {
-                    id: req.user.id
-                }
-            }
+            { deniedItems: req.query.deniedItems },
+            { where: { id: req.query.id } }
         ).then( (dbData) => res.json(dbData) );
-    });*/
+    });
 
     // create trade
     // called when user accepts a trade compare
@@ -268,6 +267,8 @@ module.exports = function(app) {
         db.trade
             .create(req.body)
             .then( (dbData) => res.json(dbData) );
+
+        // TODO move both req.body.itemID1 and req.body.itemID2 to itemArchive
     });
 
     // delete trade
