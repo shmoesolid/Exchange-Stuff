@@ -3,7 +3,7 @@
      {{#if item.error}}
         <p>Error: {{item.error}}</p>
     {{else}}
-        <div class="container">
+       
         <form id="item-form">
             <input type="hidden" id="id" value="">
             <input type="text" id="title" value="" placeholder="Item Title">
@@ -15,7 +15,7 @@
             <button id="cancel">Cancel</button>
            {{#if item.id}} <button id="remove">Remove</button>{{/if}}
         </form>
-        </div>
+       
     {{/if}}
 </div>
 
