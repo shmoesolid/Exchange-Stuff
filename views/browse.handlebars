@@ -1,27 +1,21 @@
-
 <div class='container-color'>
-    <p>browse other items based on our own currently tracked id</p>
+    {{#if item.id}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <h3>{{item.title}}</h3>
+                <img src='http://lorempixel.com/150/150/technics' />
+                <p>{{item.description}}</p>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-5" id="compare-item">
 
-    <div>
-        {{#if item.error}}
-            <p>Error: {{item.error}}</p>
-        {{else if item.id}}
-            <p>user item they will be browsing with</p>
-            <p>{{item.id}}</p>
-            <p>{{item.title}}</p>
-            <p>{{item.description}}</p>
-            <p>{{item.minValue}}</p>
-            <p>{{item.maxValue}}</p>
-            <p>{{item.userId}}</p>
-        {{else}}
-            <p>no item</p>
-        {{/if}}
+            </div>
+        </div>
     </div>
+    {{/if}}
 
-    <div>
-        <p>a scroller for other comparable items with controlls for accept or deny</p>
-        <p>must use client side browse.js to complete</p>
-    </div>
 </div>
 
 <script type="text/javascript" src="js/browse.js"></script>
