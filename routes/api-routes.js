@@ -92,6 +92,7 @@ module.exports = function(app) {
         // add item id and trader id if exists
         if (req.query.id) whereObj.id = req.query.id;
         if (req.query.userID) whereObj.userId = req.query.userID;
+        if (req.query.flagged) whereObj.flagged = req.query.flagged;
 
         // build min and max if exists
         if ((minV = parseInt(req.query.minValue)) >=0 
@@ -237,15 +238,19 @@ module.exports = function(app) {
             return res.redirect("/");
 
         // TODO: verify data
-        if (typeof req.query.deniedItems == undefined
-            || typeof req.query.id == undefined
-        ) {
+
+        // setup data array
+        var data = {};
+        if (typeof req.query.flagged != undefined) data.flagged = req.query.flagged;
+        if (typeof req.query.deniedItems != undefined) data.deniedItems = req.query.deniedItems;
+
+        // make sure we have a where id and data
+        if (typeof req.query.id == undefined || !data)
             return res.redirect("/dashboard");
-        }
 
         // update
         db.item.update(
-            { deniedItems: req.query.deniedItems },
+            data,
             { where: { id: req.query.id } }
         ).then( (dbData) => res.json(dbData) );
     });
@@ -267,8 +272,6 @@ module.exports = function(app) {
         db.trade
             .create(req.body)
             .then( (dbData) => res.json(dbData) );
-
-        // TODO move both req.body.itemID1 and req.body.itemID2 to itemArchive
     });
 
     // delete trade
@@ -282,6 +285,13 @@ module.exports = function(app) {
         // verify req.query.id
         // confirm trade is yours to delete
         // confirm one of the items belongs to user
+
+        // TODO 
+        // get trade data first
+        // get both itemID1 and itemID2 data
+        // create listings
+        // THEN destroy both items in itemArchive
+        // THEN destroy trade
 
         // delete
         db.trade.destroy({
