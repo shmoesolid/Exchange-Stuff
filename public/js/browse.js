@@ -8,7 +8,7 @@ $(document).ready( () => {
 
     // make sure item obj exists, if not, go back to dashboard
     if (typeof myItemObj === 'undefined')
-        return;//window.location.href = "/dashboard";
+        window.location.href = "/dashboard";
 
     // references
     var compareElm = $('#compare-item');
