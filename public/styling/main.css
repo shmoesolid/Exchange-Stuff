@@ -102,6 +102,11 @@ body {
   color: rgb(196, 230, 0);
   background-color: rgb(54, 54, 54);
 }
-.footer{
+footer{
     background-color: rgb(54, 54, 54);
-}
+    color: whitesmoke;
+        position: fixed;
+        width: 100%;
+        bottom: 0;  
+        z-index: 100;
+    }
