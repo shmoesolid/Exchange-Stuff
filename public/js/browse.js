@@ -16,7 +16,19 @@ $(document).ready( () => {
         // ..
     }
 
-    // create listeners for accepting and denying
+    // listener for accepting trade
+    $('#accept-trade').on('click', function(event) {
+        event.preventDefaults();
+
+
+    });
+
+    // listener for refusing trade
+    $('#refuse-trade').on('click', function(event) {
+        event.preventDefaults();
+
+
+    });
 
     // load new item on page load
     loadNewItem();
