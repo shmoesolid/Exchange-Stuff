@@ -41,7 +41,7 @@ module.exports = function(app) {
 
         // confirm authenticated
         if (!req.user) 
-            return res.json({error:"Not authorized"});
+            return res.json({});
 
         // remove vital info
         delete req.user.password;
@@ -52,28 +52,28 @@ module.exports = function(app) {
     });
 
     // user update info
-    app.put("/api/user", function(req, res) {
+    // app.put("/api/user", function(req, res) {
 
-        // confirm authenticated
-        if (!req.user) 
-            return res.redirect("/");
+    //     // confirm authenticated
+    //     if (!req.user) 
+    //         return res.redirect("/");
 
-        // confirm editing user editing itself
-        if (req.body.id != req.user.id)
-            return res.redirect("/dashboard");
+    //     // confirm editing user editing itself
+    //     if (req.body.id != req.user.id)
+    //         return res.redirect("/dashboard");
 
-        // TODO: verify other data
+    //     // TODO: verify other data
 
-        // update
-        db.user.update(
-            req.body,
-            {
-                where: {
-                    id: req.user.id
-                }
-            }
-        ).then( (dbData) => res.json(dbData) );
-    });
+    //     // update
+    //     db.user.update(
+    //         req.body,
+    //         {
+    //             where: {
+    //                 id: req.user.id
+    //             }
+    //         }
+    //     ).then( (dbData) => res.json(dbData) );
+    // });
 
     ////////////////////////////////////////////////////////////////////////////
     // ITEM/TRADE GETS
@@ -92,6 +92,7 @@ module.exports = function(app) {
         // add item id and trader id if exists
         if (req.query.id) whereObj.id = req.query.id;
         if (req.query.userID) whereObj.userId = req.query.userID;
+        if (req.query.flagged) whereObj.flagged = req.query.flagged;
 
         // build min and max if exists
         if ((minV = parseInt(req.query.minValue)) >=0 
@@ -109,6 +110,8 @@ module.exports = function(app) {
         
         if (req.query.offset && !isNaN(req.query.offset = parseInt(req.query.offset)))
             fullObj.offset = req.query.offset;
+
+        console.log(fullObj);
 
         // find all
         db.item
@@ -137,6 +140,11 @@ module.exports = function(app) {
                 // handle data parsing
                 var itemData = JSON.parse(body);
                 var idArray = itemData.map( (obj) => obj.id);
+
+                // fixes error on making a new user
+                // causes below query to error when empty
+                if (!idArray.length)
+                    return res.json({});
 
                 // screw sequelize includes and associations and blah blah
                 db.sequelize.query(
@@ -227,29 +235,30 @@ module.exports = function(app) {
         }).then( (dbData) => res.json(dbData) );
     });
 
-    // update item
-    /*app.put("/api/item", function(req, res) {
+    // update item deniedItems
+    app.put("/api/item", function(req, res) {
 
         // confirm authenticated
         if (!req.user) 
             return res.redirect("/");
 
-        // confirm updater is right user
-        if (req.body.id != req.user.id)
-            return res.redirect("/dashboard");
-
         // TODO: verify data
+
+        // setup data array
+        var data = {};
+        if (typeof req.query.flagged != undefined) data.flagged = req.query.flagged;
+        if (typeof req.query.deniedItems != undefined) data.deniedItems = req.query.deniedItems;
+
+        // make sure we have a where id and data
+        if (typeof req.query.id == undefined || !data)
+            return res.redirect("/dashboard");
 
         // update
         db.item.update(
-            req.body,
-            {
-                where: {
-                    id: req.user.id
-                }
-            }
+            data,
+            { where: { id: req.query.id } }
         ).then( (dbData) => res.json(dbData) );
-    });*/
+    });
 
     // create trade
     // called when user accepts a trade compare
@@ -281,6 +290,13 @@ module.exports = function(app) {
         // verify req.query.id
         // confirm trade is yours to delete
         // confirm one of the items belongs to user
+
+        // TODO 
+        // get trade data first
+        // get both itemID1 and itemID2 data
+        // create listings
+        // THEN destroy both items in itemArchive
+        // THEN destroy trade
 
         // delete
         db.trade.destroy({

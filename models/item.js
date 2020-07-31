@@ -23,7 +23,13 @@ module.exports = function(sequelize, DataTypes) {
         },
         deniedItems: {
             type: DataTypes.TEXT,
-            allowNull: true
+            allowNull: false,
+            defaultValue: ""
+        },
+        flagged: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     });
 

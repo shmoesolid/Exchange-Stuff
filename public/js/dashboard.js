@@ -1,6 +1,8 @@
 
+const TRADE_MAP = ["Pending","Accepted","Shipped","Completed"];
+
 // get user trades
-function populateUserTrades(page=1, limit=2)
+function populateUserTrades(page=1, limit=1)
 {
     $.get("/api/trades",
 
@@ -9,6 +11,12 @@ function populateUserTrades(page=1, limit=2)
             // get reference and empty
             var refUserTrades = $('#user-trades');
             refUserTrades.empty();
+
+            if (!data.length)
+            {
+                refUserTrades.html("No active trades...<br />Create a posting to browse for comparable trades!");
+                return;
+            }
 
             // get pager variables (for reuse)
             var p = getPagerVars(data.length, page, limit);
@@ -27,12 +35,18 @@ function populateUserTrades(page=1, limit=2)
                 var item = $('<section>');
                 item.addClass("user-trade");
                 item.attr("data-id", data[i].id);
-
-                //console.log(JSON.stringify(data[i]));
+                item.attr("data-id1", data[i].itemID1);
+                item.attr("data-id2", data[i].itemID2);
 
                 item.html(
-                    "<p>ITEM1: "+ data[i].title1 +" STATUS: "+ data[i].itemStatus1 +"</p>"
-                    + "<p>ITEM2: "+ data[i].title2 +" STATUS: "+ data[i].itemStatus2 +"</p>"
+                    "<p>"+ data[i].title1 +"<br />Status: "+ TRADE_MAP[data[i].itemStatus1] +"</p>"
+                    + "<img src='http://lorempixel.com/150/150/technics/"+i+"' />"
+                    + "<p>"+ data[i].description1 +"</p>"
+                    + "<p>-- vs --</p>"
+                    + "<p>"+ data[i].title2 +"<br />Status: "+ TRADE_MAP[data[i].itemStatus2]  +"</p>"
+                    + "<img src='http://lorempixel.com/150/150/technics/"+(i+5)+"' />"
+                    + "<p>"+ data[i].description2 +"</p>"
+                    + "<button class='cancel-trade'>Remove</button>"
                     + "<hr />"
                 );
 
@@ -40,7 +54,7 @@ function populateUserTrades(page=1, limit=2)
             }
 
             // create pager bottom
-            refUserTrades.append(generatePager(p.page_current, p.page_total, p.limit, 'pager-button-trades'));
+            //refUserTrades.append(generatePager(p.page_current, p.page_total, p.limit, 'pager-button-trades'));
 
             // listener for pager buttons
             $('.pager-button-trades').on("click",
@@ -50,7 +64,42 @@ function populateUserTrades(page=1, limit=2)
                     var bRef = $(this);
 
                     // load new items based on button data
-                    populateUserItems(uid, bRef.data('pg'), bRef.data('limit'))
+                    populateUserTrades(bRef.data('pg'), bRef.data('limit'))
+                }
+            );
+
+            // listener for canceling a trade
+            $('.cancel-trade').on("click",
+                function(event)
+                {
+                    event.preventDefault();
+
+                    // get vars
+                    var currentTradeID = $(this).parent().data('id');
+                    var item1 = $(this).parent().data('id1');
+                    var item2 = $(this).parent().data('id2');
+
+                    // quick confirm for delete
+                    if (!confirm( "Are you sure you want to delete trade?"))
+                        return;
+
+                    // unflag both items
+                    $.ajax({
+                        method: "PUT",
+                        url: "/api/item?id="+ item1 +"&flagged=false"
+                    }).then(() => {
+                        $.ajax({
+                            method: "PUT",
+                            url: "/api/item?id="+ item2 +"&flagged=false"
+                        }).then(() => {
+
+                            // delete trade
+                            $.ajax({
+                                method: "DELETE",
+                                url: "/api/trade?id=" + currentTradeID
+                            }).then( () => location.reload() );
+                        });
+                    });
                 }
             );
         }
@@ -64,13 +113,19 @@ function populateUserItems(uid, page=1, limit=2)
     //console.log(uid, page, limit);
 
     // run API
-    $.get("/api/items?userID="+ uid,
+    $.get("/api/items?userID="+ uid +"&flagged=false",
 
         function(data)
         {
             // get reference and empty
             var refUserItems = $('#user-items');
             refUserItems.empty();
+
+            if (!data.length)
+            {
+                refUserItems.html("No items to list...<br />Click post to create one!");
+                return;
+            }
 
             // get pager variables (for reuse)
             var p = getPagerVars(data.length, page, limit);
@@ -89,8 +144,8 @@ function populateUserItems(uid, page=1, limit=2)
                 item.attr("data-id", data[i].id);
 
                 item.html(
-                    "<img src='http://lorempixel.com/150/150/technics/"+i+"' />"
-                    + "<p>"+ data[i].title +"</p>"
+                    "<p>"+ data[i].title +"</p>"
+                    + "<img src='http://lorempixel.com/150/150/technics/"+i+"' />"
                     + "<p>"+ data[i].description +"</p>"
                     + "<button class='user-item-edit'>Edit</button> - "
                     + "<button class='user-item-browse'>Browse</button>"
@@ -101,7 +156,7 @@ function populateUserItems(uid, page=1, limit=2)
             }
 
             // create pager bottom
-            refUserItems.append(generatePager(p.page_current, p.page_total, p.limit, 'pager-button-items'));
+            //refUserItems.append(generatePager(p.page_current, p.page_total, p.limit, 'pager-button-items'));
 
             // listener for edit button
             $('.user-item-edit').on("click", 
@@ -131,7 +186,7 @@ function populateUserItems(uid, page=1, limit=2)
                     var bRef = $(this);
 
                     // load new items based on button data
-                    populateUserItems(uid, bRef.data('pg'), bRef.data('limit'))
+                    populateUserItems(userID, bRef.data('pg'), bRef.data('limit'))
                 }
             );
         }

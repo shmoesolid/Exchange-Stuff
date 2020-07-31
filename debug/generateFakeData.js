@@ -4,12 +4,12 @@ var db = require("../models");
 var categoryNum = 10;
 var userNum = 10;
 var itemNum = 50;
-//var tradeNum = 2;
+var tradeNum = 15;
 
 var categoryCount = 1;
 var userCount = 1;
 var itemCount = 1;
-//var tradeCount = 1;
+var tradeCount = 1;
 var itemsAvail = [];
 var itemsUnavail = [];
 
@@ -74,8 +74,10 @@ var generateFakeData = function(cb)
             .then( () => {
                 if (itemCount < itemNum)
                 {
-                    if (uid == 1) itemsAvail.push(itemCount); // for trade
-                    else itemsUnavail.push(itemCount);
+                    // make sure first user gets the first one
+                    //if (uid == 1) itemsAvail.push(itemCount); // for trade
+                    //else itemsUnavail.push(itemCount);
+                    itemsAvail.push(itemCount);
                     itemCount++;
                     itemExecute();
                     return;
@@ -88,23 +90,54 @@ var generateFakeData = function(cb)
     // trades
     var tradeExecute = function()
     {
+        // get random available indexes
+        var index1 = Math.floor(Math.random() * itemsAvail.length); // get random
+        var id1 = itemsAvail.splice(index1,1)[0]; // get and remove
+        itemsUnavail.push(id1); // put into unavail
+
+        var index2 = Math.floor(Math.random() * itemsAvail.length);
+        var id2 = itemsAvail.splice(index2,1)[0];
+        itemsUnavail.push(id2); // put into unavail
+
+        // confirm
+        if (id1 == undefined || id2 == undefined)
+        {
+            console.log(index1, index2, id1, id2);
+            cb();
+            return;
+        }
+
         // just do one for now under first user
         db.trade.create(
             {
-                itemID1: itemsAvail[Math.floor(Math.random() * itemsAvail.length)],
-                itemID2: itemsUnavail[Math.floor(Math.random() * itemsUnavail.length)],
+                itemID1: id1,
+                itemID2: id2,
                 itemStatus1: 0,
                 itemStatus2: 0
             }, 
-            /*{ 
-                include: [ 
-                    { model: db.item, as: 'itemID1' },
-                    { model: db.item, as: 'itemID2' }
-                ]
-            }*/
-        );
+        ).then(() => {
+            db.item.update(
+                {flagged:true},
+                { where: { id: id1 } }
+            ).then(() => {
+                db.item.update(
+                    {flagged:true},
+                    { where: { id: id2 } }
+                ).then(() => {
+                    if (tradeCount < tradeNum)
+                    {
+                        tradeCount++;
+                        tradeExecute();
+                        return;
+                    }
 
-        cb();
+                    // we done
+                    cb();
+                });
+            });
+        });
+
+        
     };
 
     // execute start

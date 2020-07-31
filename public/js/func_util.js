@@ -14,11 +14,14 @@ function generatePager(page, page_total, limit, buttonRef='pager-button')
         return `<button class='${buttonRef}' data-pg='${pg}' data-limit='${limit}'>${text}</button>`;
     }
 
+    if (!page_total)
+        return "";
+
     // return our neat pager table TODO add limit select/option
     return ""
     
         // open
-        + "<table class='pager-table' style='margin: 0 auto;'><tr>"
+        + "<table class='pager-table' style='margin: 5px auto;'><tr>"
 
         // left arrows
         +   "<td align='right' style='min-width:35px;'>"
@@ -53,7 +56,7 @@ function generatePager(page, page_total, limit, buttonRef='pager-button')
  */
 function getPagerVars(dataLength, page, limit)
 {
-    var limitArray = [2, 5, 10, 25, 50, 100];
+    var limitArray = [1, 2, 5, 10, 25, 50, 100];
     var rtnObj = {};
 
     rtnObj.limit = Math.max(Math.min(limit, 100), 1);
