@@ -1,101 +1,107 @@
-
-
-.nav{
-    background-color:rgb(54,54,54);
-    margin-right: auto;
-    margin-left: auto;
-    font-family: 'Baloo Da 2', cursive;
+.nav {
+  background-color: rgb(54, 54, 54);
+  margin-right: auto;
+  margin-left: auto;
+  font-family: 'Baloo Da 2', cursive;
 }
-.navbar-brand{
-    
-    text-align: right;
+.navbar-brand {
+  text-align: right;
 }
-body{
-    background-color:rgb(68, 68, 68);
-    font-family: 'Baloo Da 2', cursive;
+body {
+  background-color: rgb(68, 68, 68);
+  font-family: 'Baloo Da 2', cursive;
 }
-.container-jumbo{
-    text-align: center;
-    color: rgb(68, 68, 68);
-
+.container-jumbo {
+  text-align: center;
+  color: rgb(68, 68, 68);
 }
-.jumbotron{
-    background-color: rgb(196, 230, 0);
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-bottom: auto;
+.jumbotron {
+  background-color: rgb(196, 230, 0);
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: auto;
 }
-#j-o{
-    display: block;
+#j-o {
+  display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 100%; 
+  width: 100%;
   align-content: center;
 }
-.btn{
-    background-color: rgb(54, 54, 54);
-    color:rgb(196, 230, 0) ;
+.btn {
+  background-color: rgb(54, 54, 54);
+  color: rgb(196, 230, 0);
 }
-.carousel-images{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%; 
+.carousel-images {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
-.carousel-caption{
-    color:rgb(196, 230, 0);
-    text-shadow:
-		-1px -1px 0 black,
-		1px -1px 0  black,
-	    -1px 1px 0 black,
-        1px 1px 0  black;
-    font-size: 20px;
+.carousel-caption {
+  color: rgb(196, 230, 0);
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
+  font-size: 20px;
 }
-.why-money{
-    align-content: center;
-    background-color: rgb(196, 230, 0);
-    color: rgb(54, 54, 54);
-    text-align: center;
-    font-size: 25px;
-    margin-top: 15px;
+.why-money {
+  align-content: center;
+  background-color: rgb(196, 230, 0);
+  color: rgb(54, 54, 54);
+  text-align: center;
+  font-size: 25px;
+  margin-top: 15px;
 }
-#attn{
-    font-weight: 1000;
+#attn {
+  font-weight: 1000;
 }
-.flex-container2{
-    display: flex;
-    justify-content: center;
-    color: rgb(196, 230, 0);
-    width: 100%;
+.flex-container2 {
+  display: flex;
+  justify-content: center;
+  color: rgb(196, 230, 0);
+  width: 100%;
 }
-.container-color{
-    color: rgb(196, 230, 0);
-    margin-top: 10%;
+.container-color {
+  color: rgb(196, 230, 0);
+  margin-top: 10%;
 }
-#user-items{
-    text-align: center;
-    background-color: rgb;
+#user-items {
+  text-align: center;
+  background-color: rgb;
 }
-#title{
-    background-color: rgb(196, 230, 0);
+#title {
+  background-color: rgb(196, 230, 0);
 }
-#userId{
-    background-color: rgb(196, 230, 0);
+#userId {
+  background-color: rgb(196, 230, 0);
 }
-#minValue{
-    background-color: rgb(196, 230, 0);
+#minValue {
+  background-color: rgb(196, 230, 0);
 }
-#maxValue{
-    background-color: rgb(196, 230, 0);
+#maxValue {
+  background-color: rgb(196, 230, 0);
 }
-#description{
-    background-color: rgb(196, 230, 0);
+#description {
+  background-color: rgb(196, 230, 0);
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 #item-form {
-    text-align: center;
-    background-color: rgb(54, 54, 54);
+  text-align: center;
+  background-color: rgb(54, 54, 54);
+  padding-bottom: 20px;
 }
-#item-form button{
+
+#item-form button {
+  background-color: rgb(54, 54, 54);
+  color: rgb(196, 230, 0);
+}
+#create-listing {
+  color: rgb(196, 230, 0);
+  background-color: rgb(54, 54, 54);
+}
+.footer{
     background-color: rgb(54, 54, 54);
-    color: rgb(196, 230, 0);
 }
