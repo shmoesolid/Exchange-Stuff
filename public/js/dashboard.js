@@ -108,9 +108,8 @@ function populateUserItems(uid, page=1, limit=5)
                 function(event) 
                 {
                     event.preventDefault();
-
                     var currentItemID = $(this).parent().data('id');
-                    console.log("clicked edit for: " + currentItemID);
+                    window.location.ref = "/item?id=" + currentItemID;
                 }
             );
 
@@ -119,9 +118,8 @@ function populateUserItems(uid, page=1, limit=5)
                 function(event) 
                 {
                     event.preventDefault();
-
                     var currentItemID = $(this).parent().data('id');
-                    console.log("clicked browse for: " + currentItemID);
+                    window.location.ref = "/browse?id=" + currentItemID;
                 }
             );
 
@@ -141,5 +139,14 @@ function populateUserItems(uid, page=1, limit=5)
 }
 
 // initial page run
-populateUserItems(userID);
-populateUserTrades();
+$(document).ready(() => {
+
+    $('#create-listing').on("click", function(event) {
+        event.preventDefault();
+        window.location.ref = "/item";
+    });
+
+    populateUserItems(userID);
+    populateUserTrades();
+})
+
